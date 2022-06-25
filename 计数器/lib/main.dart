@@ -1,127 +1,89 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Super Counter',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Super Counter'),
-      debugShowCheckedModeBanner: false,
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key?key,required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  String _path = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wyUh?ver=322d";
+  double _height=10;
+  double _width=10;
+  double _size=10;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
-      _path = "https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF";
-    });
-  }
+      _height+=30;
+      _width+=30;
+      _size+=5;
 
-  void _clearCounter() {
-    setState(() {
-      _counter = 0;
-    });
-  }
-
-  void _changeImage() {
-    setState(() {
-      _path = _path == "https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF"
-          ? "https://t7.baidu.com/it/u=1595072465,3644073269&fm=193&f=GIF"
-          : "https://t7.baidu.com/it/u=4198287529,2774471735&fm=193&f=GIF";
+      if(_height>=400){
+        _counter=0;
+        _width=30;
+        _height=30;
+        _size=3;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
-              child: Image.network("$_path"),
-            ),
-            Column(
-              children: [
-                const Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: ElevatedButton(
-                    onPressed: _clearCounter,
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(100, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    child: const Text(
-                      "Zero",
-                      textScaleFactor: 1.5,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30.0, left: 20.0),
-                  child: ElevatedButton(
-                    onPressed: _changeImage,
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(100, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    child: const Text(
-                      "Refresh Image",
-                      textScaleFactor: 1.5,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+      body:Center(
+      child:AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        width: _width,
+        height: _height,
+     //   color: Colors.lightGreen,
+
+        child: Center(
+        child:Text(
+        '$_counter',
+    style: TextStyle(fontSize: _size),
+    )
         ),
+
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.greenAccent,Colors.lightBlue],
+          ),
+          boxShadow: [BoxShadow(spreadRadius: 25,blurRadius: 25)],
+          borderRadius :BorderRadius.circular(20),
+        ),
+
+
       ),
+    ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        child: Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
